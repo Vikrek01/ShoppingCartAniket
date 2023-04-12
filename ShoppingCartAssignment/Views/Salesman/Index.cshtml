@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ShoppingCartAssignment.Models.Product>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+<div class="col-md-4 mb-4">
+    <div class="card">
+        <img class="card-img-top" src="@Url.Content(item.PImage)" alt="Product image">
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(modelItem => item.PName)</h5>
+            <p class="card-text">@Html.DisplayFor(modelItem => item.PDescription)</p>
+            <p class="card-text">$@Html.DisplayFor(modelItem => item.PPrice)</p>
+            <div class="d-flex justify-content-between">
+                <div class="btn-group">
+                    @Html.ActionLink("Details", "Details", "Product", new { id = item.PId }, new { @class = "btn btn-primary mx-2" })
+                    @Html.ActionLink("AddToCart", "AddToCart", "Shopping", new { id = item.PId }, new { @class = "btn btn-primary" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+}
+</div>
+
+<script type="text/javascript">
+
+    function AddToCart(item) {
+
+        var itemId = $(item).attr("itemid");
+        var formData = new FormData();
+        formData.append("ItemId", itemId);
+
+        $.ajax({
+            async: true,
+            type: 'POST',
+            contentType: false,
+            processData: false,
+            url: '/Shopping/Index',
+            success: function (data) {
+
+            },
+
+            error: function () {
+                alert("There is Some Problem");
+            }
+        })
+
+    }
+
+</script>
